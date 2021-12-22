@@ -5,15 +5,15 @@ metadata:
   annotations:
     deployment.kubernetes.io/revision: '1'
   labels:
-    app: My2048App
-  name: '2048'
+    app: My2048aApp
+  name: '2048a'
 spec:
   progressDeadlineSeconds: 600
   replicas: 3
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      app: My2048App
+      app: My2048aApp
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -23,7 +23,7 @@ spec:
     metadata:
       creationTimestamp: null
       labels:
-        app: My2048App
+        app: My2048aApp
     spec:
       automountServiceAccountToken: false
       containers:
@@ -52,14 +52,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: svc-2048
+  name: svc-2048a
 spec:
   ports:
     - port: 80
       protocol: TCP
       targetPort: 80
   selector:
-    app: My2048App
+    app: My2048aApp
   sessionAffinity: None
   type: ClusterIP
 ---
@@ -83,7 +83,7 @@ metadata:
     kubernetes.io/ingress.class: alb
     alb.ingress.kubernetes.io/group.name: istio
     alb.ingress.kubernetes.io/group.order: '2'
-  name: ing-2048
+  name: ing-2048a
   namespace: istio-system
 spec:
   rules:
@@ -106,11 +106,11 @@ spec:
                   number: 443
             path: /
             pathType: Prefix
----
+---            
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
-  name: '2048'
+  name: '2048a'
 spec:
   hosts:
     - {{ .Values.game2048.host }}
@@ -119,7 +119,7 @@ spec:
   http:
     - route:
         - destination:
-            host: svc-2048
+            host: svc-2048a
             port:
               number: 80
       match:
