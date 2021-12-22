@@ -25,13 +25,8 @@ metadata:
   name: istio-nlb
   namespace: istio-system
 spec:
-  type: ClusterIP
-  #clusterIP: none
+  type: LoadBalancer
   ports:
-  # - name: status-port
-  #   port: 15021
-  #   protocol: TCP
-  #   targetPort: 15021
   - name: https
     port: 443
     protocol: TCP
